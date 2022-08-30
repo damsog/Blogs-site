@@ -11,10 +11,31 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   name      String
   email     String
   password  String
-  createdAt DateTime?
+  createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  Post      Post[]
+}
+
+model Post {
+  id         String   @id @default(uuid())
+  title      String
+  content    String
+  author     User     @relation(fields: [authorId], references: [id])
+  authorId   String
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Post      Post[]
 }
