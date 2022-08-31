@@ -11,16 +11,17 @@ datasource db {
 }
 
 model User {
-  id         String    @id @default(uuid())
-  usernaname String
-  email      String
-  password   String
-  firstName  String
-  lastName   String
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  Post       Post[]
-  Comment    Comment[]
+  id        String    @id @default(uuid())
+  username  String
+  email     String
+  password  String
+  firstName String?
+  lastName  String?
+  mainPhoto String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Post      Post[]
+  Comment   Comment[]
 }
 
 model Post {
@@ -31,6 +32,7 @@ model Post {
   authorId   String
   category   Category  @relation(fields: [categoryId], references: [id])
   categoryId String
+  mainImage  String?
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   Comment    Comment[]
