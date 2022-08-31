@@ -11,25 +11,29 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  email     String
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  Post      Post[]
+  id         String    @id @default(uuid())
+  usernaname String
+  email      String
+  password   String
+  firstName  String
+  lastName   String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  Post       Post[]
+  Comment    Comment[]
 }
 
 model Post {
-  id         String   @id @default(uuid())
+  id         String    @id @default(uuid())
   title      String
   content    String
-  author     User     @relation(fields: [authorId], references: [id])
+  author     User      @relation(fields: [authorId], references: [id])
   authorId   String
-  category   Category @relation(fields: [categoryId], references: [id])
+  category   Category  @relation(fields: [categoryId], references: [id])
   categoryId String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  Comment    Comment[]
 }
 
 model Category {
@@ -38,4 +42,15 @@ model Category {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   Post      Post[]
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  content   String
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
