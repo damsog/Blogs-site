@@ -1,11 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
-import userService, { UserToCreate } from "../../../services/userService";
-
-const prisma = new PrismaClient();
+import userService, { UserDataModel } from "../../../services/userService";
 
 interface UserCreateRequest extends NextApiRequest {
-    body: UserToCreate
+    body: UserDataModel
 }
 
 
@@ -14,8 +11,7 @@ const handler = async (req: UserCreateRequest, res: NextApiResponse) => {
     switch(req.method){
         case "GET":{
             const users = await userService.findAll();
-            res.status(200).json(users);
-            break;
+            return res.status(200).json(users);
         }
         case "POST":{
             try{
@@ -25,13 +21,12 @@ const handler = async (req: UserCreateRequest, res: NextApiResponse) => {
                     "email" in body && typeof body.email === "string"
                 ){
                     const user = await userService.create(body);
-        
                     return res.status(200).json(user);
                 }
+                return res.status(400).json({message: "Invalid request"});
             }catch(e){
                 return res.status(400).json({message: "Invalid request"});
             }
-            
         }
         default:{
             return res.status(400).json({message:"Invalid request"});
