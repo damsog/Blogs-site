@@ -1,9 +1,8 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient, User } from "@prisma/client";
+import { User } from "@prisma/client";
+import prisma from "../lib/prisma";
 
-const prisma = new PrismaClient();
 
-export interface UserToCreate {
+export interface UserDataModel {
     username: string;
     email: string;
     password: string;
@@ -14,16 +13,11 @@ export interface UserToCreate {
 
 
 export default class userService {
-    static async create(user: UserToCreate): Promise<User> {
+    static async create(user: UserDataModel): Promise<User> {
         const { username, email, password, firstName, lastName, mainPhoto } = user;
         const userCreated = await prisma.user.create({
             data: {
-                username,
-                email,
-                password,
-                firstName,
-                lastName,
-                mainPhoto
+                ...user
             }
         });
         return userCreated;
@@ -61,7 +55,7 @@ export default class userService {
         return user;
     }
 
-    static async update(id: string, user: UserToCreate): Promise<User | null> {
+    static async update(id: string, user: UserDataModel): Promise<User | null> {
         const userUpdated = await prisma.user.update({
             where: {
                 id
