@@ -19,8 +19,12 @@ const handler = async (req: UserRequest, res: NextApiResponse) => {
             return res.status(200).json(user);
         }
         case "DELETE":{
-            //const user = await userService.delete(id);
-            //return res.status(200).json(user);
+            try{
+                const user = await userService.delete(id);
+                return res.status(200).json(user);
+            }catch(e){
+                return res.status(400).json({message: "Record to delete does not exist."});
+            }
         }
         default:{
             return res.status(400).json({message:"Invalid request"});

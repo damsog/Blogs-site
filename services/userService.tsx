@@ -66,4 +66,13 @@ export default class userService {
         });
         return userUpdated;
     }
+
+    static async delete(id: string): Promise<User | null> {
+        const userDeleted = await prisma.user.delete({
+            where: {
+                id
+            }
+        });
+        return userDeleted;
+    }
 }
