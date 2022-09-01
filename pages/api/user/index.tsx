@@ -18,17 +18,20 @@ const handler = async (req: UserCreateRequest, res: NextApiResponse) => {
             break;
         }
         case "POST":{
-            if(
-                'username' in body && typeof body.username === 'string' &&
-                'password' in body && typeof body.password === 'string' &&
-                'email' in body && typeof body.email === 'string'
-            ){
-                const user = await userService.create(body);
-     
-                return res.status(200).json(user);
-            }else{
+            try{
+                if(
+                    "username" in body && typeof body.username === "string" &&
+                    "password" in body && typeof body.password === "string" &&
+                    "email" in body && typeof body.email === "string"
+                ){
+                    const user = await userService.create(body);
+        
+                    return res.status(200).json(user);
+                }
+            }catch(e){
                 return res.status(400).json({message: "Invalid request"});
             }
+            
         }
         default:{
             return res.status(400).json({message:"Invalid request"});
