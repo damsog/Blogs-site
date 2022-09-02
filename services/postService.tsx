@@ -33,6 +33,15 @@ export default class postService {
         return posts;
     }
 
+    static async findByCategoryId(categoryId: string): Promise<Post[]> {
+        const posts = await prisma.post.findMany({
+            where: {
+                categoryId
+            }
+        });
+        return posts;
+    }
+
     static async findById(id: string): Promise<Post | null> {
         const post = await prisma.post.findFirst({
             where: {
