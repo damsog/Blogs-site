@@ -25,7 +25,7 @@ const handler = async (req: UserCreateRequest, res: NextApiResponse) => {
                 }
                 return res.status(400).json({message: "Invalid request"});
             }catch(e){
-                return res.status(400).json({message: "Invalid request"});
+                return res.status(400).json({message: `Error creating User ${e}`});
             }
         }
         default:{
