@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import postService, { PostDataModel } from "../../../../services/postService";
+import postService from "../../../../services/postService";
 
 interface PostRequest extends NextApiRequest {
     query:
