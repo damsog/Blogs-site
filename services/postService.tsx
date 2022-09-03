@@ -3,6 +3,7 @@ import prisma from "../lib/prisma";
 
 export interface PostDataModel {
     title: string;
+    description: string;
     content: string;
     authorId: string;
     categoryId: string;

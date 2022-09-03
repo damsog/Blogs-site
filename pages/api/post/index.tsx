@@ -16,6 +16,7 @@ const handler = async (req: PostCreateRequest, res: NextApiResponse) => {
             try{
                 if(
                     "title" in body && typeof body.title === "string" &&
+                    "description" in body && typeof body.description === "string" &&
                     "content" in body && typeof body.content === "string" &&
                     "authorId" in body && typeof body.authorId === "string" &&
                     "categoryId" in body && typeof body.categoryId === "string"

@@ -25,17 +25,18 @@ model User {
 }
 
 model Post {
-  id         String    @id @default(uuid())
-  title      String    @unique
-  content    String
-  author     User      @relation(fields: [authorId], references: [id])
-  authorId   String
-  category   Category  @relation(fields: [categoryId], references: [id])
-  categoryId String
-  mainImage  String?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  Comment    Comment[]
+  id          String    @id @default(uuid())
+  title       String    @unique
+  description String
+  content     String
+  author      User      @relation(fields: [authorId], references: [id])
+  authorId    String
+  category    Category  @relation(fields: [categoryId], references: [id])
+  categoryId  String
+  mainImage   String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  Comment     Comment[]
 }
 
 model Category {
