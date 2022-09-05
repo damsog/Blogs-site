@@ -1,34 +1,37 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import categoryService , { CategoryDataModel } from "../../../services/categoryService";
+import { createRouter, expressWrapper } from "next-connect";
+import customMorgan from "../../../lib/customMorgan";
 
-interface CategoryCreateRequest extends NextApiRequest {
+interface CategoryRequest extends NextApiRequest {
     body: CategoryDataModel
 }
 
-const handler = async (req: CategoryCreateRequest, res: NextApiResponse) => {
-    const { body } = req;
-    switch(req.method){
-        case "GET":{
-            const categories = await categoryService.findAll();
-            return res.status(200).json(categories);
-        }
-        case "POST":{
-            try{
-                if(
-                    "name" in body && typeof body.name === "string"
-                ){
-                    const category = await categoryService.create(body);
-                    return res.status(200).json(category);
-                }
-                return res.status(400).json({message: "Invalid request"});
-            }catch(e){
-                return res.status(400).json({message: `Error creating Category ${e}`});
-            }
-        }
-        default:{
-            return res.status(400).json({message:"Invalid request"});
-        }
-    }
-}
+const router = createRouter<CategoryRequest, NextApiResponse>();
 
-export default handler;
+router.use(expressWrapper(customMorgan));
+
+router.get( async (req: CategoryRequest, res: NextApiResponse) =>{
+    const category = await categoryService.findAll();
+    return res.status(200).json(category);
+});
+
+router.post( async (req: CategoryRequest, res: NextApiResponse) =>{
+    try{
+        if(
+            "name" in req.body && typeof req.body.name === "string"
+        ){
+            const category = await categoryService.create(req.body);
+            return res.status(200).json(category);
+        }
+        return res.status(400).json({message: "Invalid request"});
+    }catch(e){
+        return res.status(400).json({message: `Error creating Category ${e}`});
+    }
+});
+
+export default router.handler({
+    onNoMatch(req: CategoryRequest, res: NextApiResponse){
+        res.status(405).json({message: `Method ${req.method} Not Allowed`});
+    }
+});
