@@ -1,22 +1,24 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import commentService from "../../../../services/commentService";
+import { createRouter, expressWrapper } from "next-connect";
+import customMorgan from "../../../../lib/customMorgan";
 
 interface CommentRequest extends NextApiRequest {
     query:
     {id: string;}
 }
 
-const handler = async (req: CommentRequest, res: NextApiResponse) => {
-    const { id } = req.query;
-    switch(req.method){
-        case "GET":{
-            const comment = await commentService.findByAuthorId(id);
-            return res.status(200).json(comment);
-        }
-        default:{
-            return res.status(400).json({message:"Invalid request"});
-        }
-    }
-}
+const router = createRouter<CommentRequest, NextApiResponse>();
 
-export default handler;
+router.use(expressWrapper(customMorgan));
+
+router.get( async (req: CommentRequest, res: NextApiResponse) =>{
+    const comment = await commentService.findByAuthorId(req.query.id);
+    return res.status(200).json(comment);
+});
+
+export default router.handler({
+    onNoMatch(req: CommentRequest, res: NextApiResponse){
+        res.status(405).json({message: `Method ${req.method} Not Allowed`});
+    }
+});
