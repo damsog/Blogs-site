@@ -1,27 +1,26 @@
 import { createRouter } from "next-connect";
 import { NextApiRequest, NextApiResponse } from "next";
 import logger from "../../../../lib/logger";
-import formidable from "formidable";
-
-const uploadMiddleware = async (req: NextApiRequest,res: NextApiResponse, next: () => any) => {
-};
+import Formidable from "formidable";
+import path from "path";
+import fs from "fs";
 
 const router = createRouter<NextApiRequest, NextApiResponse>();
 
-router.use(uploadMiddleware);
-
 router.post(async (req, res, next) => {
-    const form = new formidable.IncomingForm();
-    form.parse(req, (err, fields, files) => {
-        if (err) {
-            next();
-            logger.error(err);
-            return res.status(500).json({ error: "Internal Server Error" });
-        }
-        logger.info(files);
-        return res.status(200).json({ message: "success" });
+    const uploadFolder = path.join(__dirname, "../../../../public/upload/");
+    //const form = Formidable({ maxFileSize: 100 * 1024 *1024, uploadDir: uploadFolder });
+    var form = new Formidable.IncomingForm();
+    form.parse(req);
 
-      });
+    form.on('fileBegin', function (name, file){
+        file.filepath = uploadFolder + file.originalFilename;
+    });
+
+    form.on('file', function (name, file){
+        logger.debug('Uploaded ' + file.originalFilename);
+    });
+    return res.status(200).json({ message: "success" });
 });
 
 export const config = {
