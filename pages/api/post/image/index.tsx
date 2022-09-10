@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import logger from "../../../../lib/logger";
 import Formidable from "formidable";
 import path from "path";
-import createPublicUploadFolder from "../../../../lib/init";
+import createPublicUploadFolder from "../../../../lib/folder";
 
 const router = createRouter<NextApiRequest, NextApiResponse>();
 
