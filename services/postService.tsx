@@ -1,8 +1,9 @@
 import { Post } from "@prisma/client";
 import prisma from "../lib/prisma";
 
-export interface PostDataModel {
+interface PostDataModelBase {
     title: string;
+    slug: string;
     description: string;
     content: string;
     authorId: string;
@@ -10,11 +11,17 @@ export interface PostDataModel {
     mainPhoto: string | null | undefined;
 }
 
+export interface PostDataModel extends PostDataModelBase {
+    slug: string;
+}
+
 export default class postService {
-    static async create(post: PostDataModel): Promise<Post> {
+    static async create(post: PostDataModelBase): Promise<Post> {
+        const slug = post.title.toLowerCase().replace(/ /g, "_");
+        const postWSlug:PostDataModel = {...post, slug: slug};
         const postCreated = await prisma.post.create({
             data: {
-                ...post
+                ...postWSlug
             }
         });
         return postCreated;
@@ -65,6 +72,15 @@ export default class postService {
         const post = await prisma.post.findFirst({
             where: {
                 title
+            }
+        });
+        return post;
+    }
+
+    static async findBySlug(slug: string): Promise<Post | null> {
+        const post = await prisma.post.findFirst({
+            where: {
+                slug
             }
         });
         return post;
