@@ -7,8 +7,14 @@ import dotenv from 'dotenv';
 import { Post } from '@prisma/client';
 import Link from 'next/link';
 
+interface PostI extends Post {
+  author: {
+    firstName: string | null
+  }
+}
+
 interface Props {
-  posts: Post[] | undefined;
+  posts: PostI[] | undefined;
 }
 
 const Home: NextPage<Props> = ({posts}:Props) => {
@@ -53,7 +59,7 @@ const Home: NextPage<Props> = ({posts}:Props) => {
               <div className='flex justify-between p-5 bg-white'>
                 <div>
                   <p className='text-lg font-bold'>{post.title}</p>
-                  <p className='text-xs'>{post.description} by {post.authorId}</p>
+                  <p className='text-xs'>{post.description} by {post.author.firstName}</p>
                 </div>
                 
                 <img 
@@ -72,7 +78,7 @@ const Home: NextPage<Props> = ({posts}:Props) => {
 export const getServerSideProps = async () => {
   dotenv.config();
   const api = process.env.API_URL;
-  let posts:Post|undefined;
+  let posts:PostI|undefined;
 
   logger.debug(api);
   try{
