@@ -5,6 +5,7 @@ import logger from '../lib/logger';
 import axios from 'axios';
 import dotenv from 'dotenv';
 import { Post } from '@prisma/client';
+import Link from 'next/link';
 
 interface Props {
   posts: Post[] | undefined;
@@ -41,7 +42,30 @@ const Home: NextPage<Props> = ({posts}:Props) => {
           alt="" />
       </div>
 
-    </div>
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3  md:gap-6 p-2 md:p-6'>
+        {posts?.map((post) => (
+          <Link key={post.id} href={`/post/${post.title}`}>
+            <div className='border rounded-lg group cursor-pointer overflow-hidden'>
+              <img 
+                className='h-60 w-full object-cover group-hover:scale-105 transition-transform duration-200 ease-in-out'
+                src={post.mainImage!} alt="" 
+              />
+              <div className='flex justify-between p-5 bg-white'>
+                <div>
+                  <p className='text-lg font-bold'>{post.title}</p>
+                  <p className='text-xs'>{post.description} by {post.authorId}</p>
+                </div>
+                
+                <img 
+                  className='h-12 w-12 rounded-full'
+                  src={post.mainImage!} alt="" 
+                />
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div> 
   )
 }
 
