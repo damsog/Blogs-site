@@ -3,12 +3,16 @@ import { NextApiRequest, NextApiResponse } from "next";
 import logger from "../../../../lib/logger";
 import Formidable from "formidable";
 import path from "path";
-import fs from "fs";
+import createPublicUploadFolder from "../../../../lib/init";
 
 const router = createRouter<NextApiRequest, NextApiResponse>();
 
 router.post(async (req, res, next) => {
-    const uploadFolder = path.join(__dirname, "../../../../public/upload/");
+    const publicFolder = path.join(__dirname, "../../../../../public/");
+    const uploadFolder = path.join(publicFolder, "upload/");
+    let folderExists = createPublicUploadFolder(publicFolder);
+    folderExists = createPublicUploadFolder(uploadFolder);
+    logger.debug(`Folder exists: ${folderExists}`);
     //const form = Formidable({ maxFileSize: 100 * 1024 *1024, uploadDir: uploadFolder });
     var form = new Formidable.IncomingForm();
     form.parse(req);
