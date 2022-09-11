@@ -45,6 +45,13 @@ export default class postService {
         const posts = await prisma.post.findMany({
             where: {
                 authorId
+            },
+            include: {
+                author: {
+                    select: {
+                        firstName: true,
+                    }
+                }
             }
         });
         return posts;
@@ -54,6 +61,13 @@ export default class postService {
         const posts = await prisma.post.findMany({
             where: {
                 categoryId
+            },
+            include: {
+                author: {
+                    select: {
+                        firstName: true,
+                    }
+                }
             }
         });
         return posts;
@@ -63,6 +77,13 @@ export default class postService {
         const post = await prisma.post.findFirst({
             where: {
                 id
+            },
+            include: {
+                author: {
+                    select: {
+                        firstName: true,
+                    }
+                }
             }
         });
         return post;
@@ -72,6 +93,13 @@ export default class postService {
         const post = await prisma.post.findFirst({
             where: {
                 title
+            },
+            include: {
+                author: {
+                    select: {
+                        firstName: true,
+                    }
+                }
             }
         });
         return post;
@@ -81,6 +109,13 @@ export default class postService {
         const post = await prisma.post.findFirst({
             where: {
                 slug
+            },
+            include: {
+                author: {
+                    select: {
+                        firstName: true,
+                    }
+                }
             }
         });
         return post;
