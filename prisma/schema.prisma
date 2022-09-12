@@ -29,7 +29,7 @@ model Post {
   title       String    @unique
   slug        String    @unique
   description String
-  content     String
+  content     String    @db.Text
   author      User      @relation(fields: [authorId], references: [id])
   authorId    String
   category    Category  @relation(fields: [categoryId], references: [id])
