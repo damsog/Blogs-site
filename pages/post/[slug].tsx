@@ -1,25 +1,55 @@
 import { GetStaticProps } from "next";
 import logger from "../../lib/logger";
 import postService from "../../services/postService";
-import { Post } from "@prisma/client";
+import prisma from "@prisma/client";
 import Header from "../../components/Header";
-
+import ReactMarkdown from "react-markdown";
 
 // This function gets called at build time populated with the posts data
+
+interface PostI extends prisma.Post {
+    author: {
+      firstName: string | null
+    }
+}
+
 interface Props {
-    post: Post;
+    post: PostI;
 }
 
 function Post({post}: Props) {
     return (
-        <>
-            <main>
-                <Header />
-            </main>
-            <div>
-                <h1>{post.title}</h1>
-            </div>
-        </>
+        <main>
+            <Header />
+
+            <img 
+                className="w-full h-40 object-cover"
+                src={post.mainImage!} 
+                alt="" 
+            />
+
+            <article className="max-w-3xl mx-auto p-5">
+                <h1 className="text-3xl mt-10 mb-3">{post.title}</h1>
+                <h2 className="text-xl font-light text-gray-500 mb-2">{post.description}</h2>
+
+                <div className="flex items-center space-x-2">
+                    <img
+                        className="h-10 w-10 rounded-full"
+                        src={post.mainImage!} 
+                        alt="" 
+                    />
+                    <p className="font-extralight text-sm">
+                        Blog post by {" "}
+                        <span className="text-green-600">{post.author.firstName}</span> 
+                        - Published at {new Date(post.createdAt).toLocaleDateString()}
+                    </p>
+                </div>
+
+                <div className="mt-10">
+                    <ReactMarkdown>{post.content}</ReactMarkdown>
+                </div>
+            </article>
+        </main>
     );
 };
 
@@ -49,7 +79,10 @@ export const getStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({params}) => {
     const slug = params!.slug as string;
     const post = await postService.findBySlug(slug);
+    const postI: PostI = post as PostI;
     logger.info(`Request to get post with slug ${slug}`);
+    
+    logger.debug(`Post Content: ${postI.content}`);
 
     if (!post)  {
         logger.info(`Post with slug ${slug} not found`);
@@ -58,7 +91,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
 
     return {
         props: {
-            post: JSON.parse(JSON.stringify(post)),
+            post: JSON.parse(JSON.stringify(postI)),
         }
     }
 }
