@@ -4,6 +4,8 @@ import postService from "../../services/postService";
 import prisma from "@prisma/client";
 import Header from "../../components/Header";
 import ReactMarkdown from "react-markdown";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { useState } from "react";
 
 // This function gets called at build time populated with the posts data
 
@@ -17,7 +19,32 @@ interface Props {
     post: PostI;
 }
 
+interface IFormInput {
+    postId: string,
+    authorId: string,
+    content: string
+}
+
 function Post({post}: Props) {
+    const [ submitted, setSubmitted ] = useState(false);
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<IFormInput>();
+
+    const onSubmit:SubmitHandler<IFormInput> = async (data) => {
+        console.log(`Submitting data:  ${JSON.stringify(data)}`);
+
+        try{
+            const response = await fetch("/api/comment", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(data)
+            });
+            console.log(`Response: ${JSON.stringify(response)}`);
+            setSubmitted(true);
+        }catch(e){
+            console.log(`Error: ${e}`);
+            setSubmitted(false);
+        }
+    }
     return (
         <main>
             <Header />
@@ -52,38 +79,58 @@ function Post({post}: Props) {
 
             <hr className="max-w-lg my-5 mx-auto border border-yellow-500"/>
 
-            <form className="flex flex-col p-5 max-w-2xl mx-auto mb-10">
+            {submitted ? (
+                <div className="flex flex-col p-10 my-10 bg-yellow-500 text-white
+                    max-w-2xl mx-auto">
+                    <h3 className="text-3xl font-bold"> Thank you for submitting your comment! </h3>
+                    <p>Once it has been aproved it shall appear below</p>
+                </div>
+            ) : (
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col p-5 max-w-2xl mx-auto mb-10">
                 <h3 className="text-5m text-yellow-500 ">Enjoyed this article?</h3>
                 <h4 className="text-3xl font-bold">Leave a Comment below!</h4>
                 <hr className="py-3 mt-2"/>
-                <label className="block mb-5">
-                    <span className="text-gray-700">Name</span>
-                    <input
-                     className="shadow border rounded py-2 px-3 form-input mt-1 block w-full ring-yellow-500
-                     outline-none focus:ring" 
-                     placeholder="John Doe" 
-                     type="text" 
-                    />
-                </label>
-                <label className="block mb-5">
-                    <span className="text-gray-700">Email</span>
-                    <input
-                     className="shadow border rounded py-2 px-3 form-input mt-1 block w-full ring-yellow-500
-                     outline-none focus:ring" 
-                     placeholder="John Doe" 
-                     type="text" 
-                    />
-                </label>
+
+                <input 
+                    {...register("postId", {required: true})}
+                    type="hidden"
+                    name="postId"
+                    value={post.id}
+                />
+                <input 
+                    {...register("authorId", {required: true})}
+                    type="hidden"
+                    name="authorId"
+                    value={post.authorId}
+                />
                 <label className="block mb-5">
                     <span className="text-gray-700">Comment</span>
                     <textarea
-                     className="shadow border rounded py-2 px-3 form-textarea mt-1 block w-full ring-yellow-500
-                     outline-none focus:ring" 
-                     placeholder="John Doe" 
-                     rows={8} 
+                        {...register("content", {required: true})}
+                        className="shadow border rounded py-2 px-3 form-textarea mt-1 block w-full ring-yellow-500
+                        outline-none focus:ring" 
+                        placeholder="John Doe" 
+                        rows={8} 
                     />
                 </label>
+
+                {/* Validation errors for the form */}
+                <div className="flex flex-col p-5">
+                    {errors.content && (
+                        <span className="text-red-500">
+                            - This field is required
+                        </span>   
+                    )}
+                </div>
+
+                <input 
+                    type="submit" 
+                    className="shadow bg-yellow-500 hover:bg-yellow-400 
+                    focus:shadow-outline focus:outline-none text-white font-bold
+                    py-2 px-4 rounded cursor-pointer" 
+                />
             </form>
+            )}
         </main>
     );
 };
