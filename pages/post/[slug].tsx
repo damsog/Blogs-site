@@ -1,11 +1,12 @@
 import { GetStaticProps } from "next";
 import logger from "../../lib/logger";
 import postService from "../../services/postService";
-import prisma from "@prisma/client";
+import prisma, { Prisma } from "@prisma/client";
 import Header from "../../components/Header";
 import ReactMarkdown from "react-markdown";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
+import commentService from "../../services/commentService";
 
 // This function gets called at build time populated with the posts data
 
@@ -17,6 +18,7 @@ interface PostI extends prisma.Post {
 
 interface Props {
     post: PostI;
+    comments: prisma.Comment[];
 }
 
 interface IFormInput {
@@ -25,7 +27,7 @@ interface IFormInput {
     content: string
 }
 
-function Post({post}: Props) {
+function Post({post,comments}: Props) {
     const [ submitted, setSubmitted ] = useState(false);
     const { register, handleSubmit, watch, formState: { errors } } = useForm<IFormInput>();
 
@@ -161,6 +163,7 @@ export const getStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({params}) => {
     const slug = params!.slug as string;
     const post = await postService.findBySlug(slug);
+    const comments: prisma.Comment[] = await commentService.findByPostId(post!.id);
     const postI: PostI = post as PostI;
     logger.info(`Request to get post with slug ${slug}`);
     
@@ -174,6 +177,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     return {
         props: {
             post: JSON.parse(JSON.stringify(postI)),
+            comments: JSON.parse(JSON.stringify(comments)),
         }
     }
 }
