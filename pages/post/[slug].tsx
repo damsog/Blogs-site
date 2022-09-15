@@ -16,9 +16,15 @@ interface PostI extends prisma.Post {
     }
 }
 
+interface CommentI extends prisma.Comment {
+    author: {
+      firstName: string | null
+    }
+}
+
 interface Props {
     post: PostI;
-    comments: prisma.Comment[];
+    comments: CommentI[];
 }
 
 interface IFormInput {
@@ -143,7 +149,7 @@ function Post({post,comments}: Props) {
             {comments.map( (comment) => (
                 <div key={comment.id}>
                     <p>
-                        <span className="text-yellow-500">{comment.authorId}</span>:{comment.content}
+                        <span className="text-yellow-500">{comment.author.firstName}</span>:{comment.content}
                     </p>
                 </div>
             ))}
@@ -179,7 +185,8 @@ export const getStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({params}) => {
     const slug = params!.slug as string;
     const post = await postService.findBySlug(slug);
-    const comments: prisma.Comment[] = await commentService.findByPostId(post!.id);
+    const comments = await commentService.findByPostId(post!.id);
+    const commentsI = comments as CommentI[];
     const postI: PostI = post as PostI;
     logger.info(`Request to get post with slug ${slug}`);
     
@@ -193,7 +200,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     return {
         props: {
             post: JSON.parse(JSON.stringify(postI)),
-            comments: JSON.parse(JSON.stringify(comments)),
+            comments: JSON.parse(JSON.stringify(commentsI)),
         }
     }
 }
