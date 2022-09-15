@@ -18,7 +18,15 @@ export default class commentService {
     }
     
     static async findAll(): Promise<Comment[]> {
-        const comments = await prisma.comment.findMany();
+        const comments = await prisma.comment.findMany({
+            include: {
+                author: {
+                    select: {
+                        firstName: true,
+                    }
+                }
+            } 
+        });
         return comments;
     }
 
@@ -26,7 +34,14 @@ export default class commentService {
         const comments = await prisma.comment.findMany({
             where: {
                 postId
-            }
+            },
+            include: {
+                author: {
+                    select: {
+                        firstName: true,
+                    }
+                }
+            }       
         });
         return comments;
     }
@@ -35,7 +50,14 @@ export default class commentService {
         const comments = await prisma.comment.findMany({
             where: {
                 authorId
-            }
+            },
+            include: {
+                author: {
+                    select: {
+                        firstName: true,
+                    }
+                }
+            } 
         });
         return comments;
     }
@@ -44,7 +66,14 @@ export default class commentService {
         const comment = await prisma.comment.findFirst({
             where: {
                 id
-            }
+            },
+            include: {
+                author: {
+                    select: {
+                        firstName: true,
+                    }
+                }
+            } 
         });
         return comment;
     }
