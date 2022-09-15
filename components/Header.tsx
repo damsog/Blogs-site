@@ -11,14 +11,15 @@ const Header = () => {
                 </Link>
                 <div className="hidden md:inline-flex 
                     items-center space-x-5">
-                    <h3>About</h3>
-                    <h3>Contact</h3>
-                    <h3 className="text-white bg-green-600 px-4 py-1 rounded-full">Follow</h3>
+                    <button className="text-gray-600 hover:text-gray-800">About</button>
+                    <button className="text-gray-600 hover:text-gray-800">Contact</button>
+                    <button className="text-gray-600 hover:text-gray-800">Follow</button>
                 </div>
             </div>
-            <div className="flex items-center space-x-5 text-green-600">
-                <h3>Sign In</h3>
-                <h3 className="border px-4 py-1 rounded-full border-green-600">Get Started</h3>
+            <div className="flex items-center space-x-5 text-green-500">
+                <button className="hover:text-green-700">Sign In</button>
+                <button className="border px-4 py-1 rounded-full border-green-200 
+                                    hover:bg-green-500 hover:text-white hover:border-green-500">Get Started</button>
             </div>
         </header>
     );
