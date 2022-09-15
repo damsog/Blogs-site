@@ -133,6 +133,22 @@ function Post({post,comments}: Props) {
                 />
             </form>
             )}
+
+        {/* Comments */}
+        <div className="flex flex-col p-10 my-10 max-w-2xl mx-auto shadow-yellow-500
+                        shadow space-y-2">
+            <h3 className="text-4xl">Comments</h3>
+            <hr className="pb-2"/>
+
+            {comments.map( (comment) => (
+                <div key={comment.id}>
+                    <p>
+                        <span className="text-yellow-500">{comment.authorId}</span>:{comment.content}
+                    </p>
+                </div>
+            ))}
+        </div>
+
         </main>
     );
 };
@@ -167,7 +183,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     const postI: PostI = post as PostI;
     logger.info(`Request to get post with slug ${slug}`);
     
-    logger.debug(`Post Content: ${postI.content}`);
+    //logger.debug(`Post Content: ${postI.content}`);
 
     if (!post)  {
         logger.info(`Post with slug ${slug} not found`);
