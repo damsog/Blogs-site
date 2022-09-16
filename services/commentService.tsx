@@ -22,7 +22,7 @@ export default class commentService {
             include: {
                 author: {
                     select: {
-                        firstName: true,
+                        name: true,
                     }
                 }
             } 
@@ -38,7 +38,7 @@ export default class commentService {
             include: {
                 author: {
                     select: {
-                        firstName: true,
+                        name: true,
                     }
                 }
             }       
@@ -54,7 +54,7 @@ export default class commentService {
             include: {
                 author: {
                     select: {
-                        firstName: true,
+                        name: true,
                     }
                 }
             } 
@@ -70,7 +70,7 @@ export default class commentService {
             include: {
                 author: {
                     select: {
-                        firstName: true,
+                        name: true,
                     }
                 }
             } 

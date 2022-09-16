@@ -7,18 +7,19 @@ import ReactMarkdown from "react-markdown";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 import commentService from "../../services/commentService";
+import { useSession } from "next-auth/react";
 
 // This function gets called at build time populated with the posts data
 
 interface PostI extends prisma.Post {
     author: {
-      firstName: string | null
+        name: string | null
     }
 }
 
 interface CommentI extends prisma.Comment {
     author: {
-      firstName: string | null
+        name: string | null
     }
 }
 
@@ -36,6 +37,7 @@ interface IFormInput {
 function Post({post,comments}: Props) {
     const [ submitted, setSubmitted ] = useState(false);
     const { register, handleSubmit, watch, formState: { errors } } = useForm<IFormInput>();
+    const { data: session, status } = useSession();
 
     const onSubmit:SubmitHandler<IFormInput> = async (data) => {
         console.log(`Submitting data:  ${JSON.stringify(data)}`);
@@ -75,7 +77,7 @@ function Post({post,comments}: Props) {
                     />
                     <p className="font-extralight text-sm">
                         Blog post by {" "}
-                        <span className="text-green-600">{post.author.firstName}</span> 
+                        <span className="text-green-600">{post.author.name}</span> 
                         - Published at {new Date(post.createdAt).toLocaleDateString()}
                     </p>
                 </div>
@@ -149,7 +151,7 @@ function Post({post,comments}: Props) {
             {comments.map( (comment) => (
                 <div key={comment.id}>
                     <p>
-                        <span className="text-yellow-500">{comment.author.firstName}</span>:{comment.content}
+                        <span className="text-yellow-500">{comment.author.name}</span>:{comment.content}
                     </p>
                 </div>
             ))}

@@ -32,7 +32,7 @@ export default class postService {
             include: {
                 author: {
                     select: {
-                        firstName: true
+                        name: true
                     }
                 }
                 
@@ -49,7 +49,7 @@ export default class postService {
             include: {
                 author: {
                     select: {
-                        firstName: true,
+                        name: true,
                     }
                 }
             }
@@ -65,7 +65,7 @@ export default class postService {
             include: {
                 author: {
                     select: {
-                        firstName: true,
+                        name: true,
                     }
                 }
             }
@@ -81,7 +81,7 @@ export default class postService {
             include: {
                 author: {
                     select: {
-                        firstName: true,
+                        name: true,
                     }
                 }
             }
@@ -97,7 +97,7 @@ export default class postService {
             include: {
                 author: {
                     select: {
-                        firstName: true,
+                        name: true,
                     }
                 }
             }
@@ -113,7 +113,7 @@ export default class postService {
             include: {
                 author: {
                     select: {
-                        firstName: true,
+                        name: true,
                     }
                 }
             }
