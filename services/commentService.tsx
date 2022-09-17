@@ -46,6 +46,23 @@ export default class commentService {
         return comments;
     }
 
+    static async findByPostIdInclude(postId: string): Promise<Comment[]> {
+        const comments = await prisma.comment.findMany({
+            where: {
+                postId
+            },
+            include: {
+                author: {
+                    select: {
+                        name: true,
+                        image: true
+                    }
+                }
+            }       
+        });
+        return comments;
+    }
+
     static async findByAuthorId(authorId: string): Promise<Comment[]> {
         const comments = await prisma.comment.findMany({
             where: {

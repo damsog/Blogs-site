@@ -20,7 +20,8 @@ interface PostI extends prisma.Post {
 
 interface CommentI extends prisma.Comment {
     author: {
-        name: string | null
+        name: string | null,
+        image: string | null
     }
 }
 
@@ -159,10 +160,13 @@ function Post({post,author,comments}: Props) {
             <hr className="pb-2"/>
 
             {comments.map( (comment) => (
-                <div key={comment.id}>
-                    <p>
-                        <span className="text-yellow-500">{comment.author.name}</span>:{comment.content}
-                    </p>
+                <div key={comment.id} className="flex items-center space-x-2">
+                    <img  className="h-12 w-12 rounded-full" src={comment.author.image!}/>
+                    <div className="">
+                        <p className="text-lg">{comment.author.name}</p>
+                        <p className="font-extralight text-slate-600 text-xs">{new Date(comment.createdAt).toLocaleDateString()}</p>
+                        <p className="text-sm">{comment.content}</p>
+                    </div>
                 </div>
             ))}
         </div>
@@ -199,7 +203,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     const post = await postService.findBySlug(slug);
     const postI: PostI = post as PostI;
     const author = await userService.findById(postI.authorId);
-    const comments = await commentService.findByPostId(post!.id);
+    const comments = await commentService.findByPostIdInclude(post!.id);
     const commentsI = comments as CommentI[];
     
     logger.info(`Request to get post with slug ${slug}`);
