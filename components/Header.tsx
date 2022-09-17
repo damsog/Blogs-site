@@ -27,6 +27,11 @@ const Header = () => {
             ) : (
                 <div className="flex items-center space-x-5 text-green-500">
                     <button onClick={() => signOut()} className="hover:text-green-700">Log Out</button>
+                    <img
+                        className="h-10 w-10 rounded-full"
+                        src={session.user!.image as string} 
+                        alt="" 
+                    />
                     <button className="border px-4 py-1 rounded-full border-green-200 
                                 hover:bg-green-500 hover:text-white hover:border-green-500">Get Started</button>
                 </div>
