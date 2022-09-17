@@ -1,4 +1,4 @@
-import { GetStaticProps } from "next";
+import { GetServerSideProps, GetStaticProps } from "next";
 import logger from "../../lib/logger";
 import postService from "../../services/postService";
 import prisma, { Prisma } from "@prisma/client";
@@ -89,14 +89,21 @@ function Post({post,comments}: Props) {
 
             <hr className="max-w-lg my-5 mx-auto border border-yellow-500"/>
 
-            {submitted ? (
+            {!session && (
+                <div className="flex flex-col p-10 my-10 bg-yellow-500 text-white
+                    max-w-2xl mx-auto">
+                    <h3 className="text-3xl font-bold"> Login and leave comment! </h3>
+                    <p>Don't have an account? join now for free</p>
+                </div>
+            )}
+            {(session && submitted) && (
                 <div className="flex flex-col p-10 my-10 bg-yellow-500 text-white
                     max-w-2xl mx-auto">
                     <h3 className="text-3xl font-bold"> Thank you for submitting your comment! </h3>
                     <p>Once it has been aproved it shall appear below</p>
                 </div>
-            ) : (
-            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col p-5 max-w-2xl mx-auto mb-10">
+            )}
+            {(session && !submitted) && (<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col p-5 max-w-2xl mx-auto mb-10">
                 <h3 className="text-5m text-yellow-500 ">Enjoyed this article?</h3>
                 <h4 className="text-3xl font-bold">Leave a Comment below!</h4>
                 <hr className="py-3 mt-2"/>
@@ -111,7 +118,7 @@ function Post({post,comments}: Props) {
                     {...register("authorId", {required: true})}
                     type="hidden"
                     name="authorId"
-                    value={post.authorId}
+                    value={session?.userId as string}
                 />
                 <label className="block mb-5">
                     <span className="text-gray-700">Comment</span>
@@ -138,6 +145,7 @@ function Post({post,comments}: Props) {
                     className="shadow bg-yellow-500 hover:bg-yellow-400 
                     focus:shadow-outline focus:outline-none text-white font-bold
                     py-2 px-4 rounded cursor-pointer" 
+                    value="Submit Comment"
                 />
             </form>
             )}
