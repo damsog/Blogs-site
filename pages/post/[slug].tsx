@@ -8,6 +8,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 import commentService from "../../services/commentService";
 import { useSession } from "next-auth/react";
+import userService from "../../services/userService";
 
 // This function gets called at build time populated with the posts data
 
@@ -25,6 +26,7 @@ interface CommentI extends prisma.Comment {
 
 interface Props {
     post: PostI;
+    author: prisma.User;
     comments: CommentI[];
 }
 
@@ -34,7 +36,7 @@ interface IFormInput {
     content: string
 }
 
-function Post({post,comments}: Props) {
+function Post({post,author,comments}: Props) {
     const [ submitted, setSubmitted ] = useState(false);
     const { register, handleSubmit, watch, formState: { errors } } = useForm<IFormInput>();
     const { data: session, status } = useSession();
@@ -72,7 +74,7 @@ function Post({post,comments}: Props) {
                 <div className="flex items-center space-x-2">
                     <img
                         className="h-10 w-10 rounded-full"
-                        src={post.mainImage!} 
+                        src={author.image!} 
                         alt="" 
                     />
                     <p className="font-extralight text-sm">
@@ -195,10 +197,13 @@ export const getStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({params}) => {
     const slug = params!.slug as string;
     const post = await postService.findBySlug(slug);
+    const postI: PostI = post as PostI;
+    const author = await userService.findById(postI.authorId);
     const comments = await commentService.findByPostId(post!.id);
     const commentsI = comments as CommentI[];
-    const postI: PostI = post as PostI;
+    
     logger.info(`Request to get post with slug ${slug}`);
+    logger.info(`Author: ${JSON.stringify(author!.image)}`);
     
     //logger.debug(`Post Content: ${postI.content}`);
 
@@ -210,6 +215,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     return {
         props: {
             post: JSON.parse(JSON.stringify(postI)),
+            author: JSON.parse(JSON.stringify(author)),
             comments: JSON.parse(JSON.stringify(commentsI)),
         }
     }
