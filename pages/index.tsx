@@ -9,7 +9,7 @@ import Link from 'next/link';
 
 interface PostI extends Post {
   author: {
-    firstName: string | null
+    name: string | null
   }
 }
 
@@ -59,7 +59,9 @@ const Home: NextPage<Props> = ({posts}:Props) => {
               <div className='flex justify-between p-5 bg-white'>
                 <div>
                   <p className='text-lg font-bold'>{post.title}</p>
-                  <p className='text-xs'>{post.description} by {post.author.firstName}</p>
+                  <p className='text-xs'>{post.description} by {" "}
+                        <span className="text-green-600">{post.author.name}</span> 
+                  </p>
                 </div>
                 
                 <img 
