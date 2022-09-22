@@ -1,4 +1,4 @@
-import { GetServerSideProps, GetStaticProps } from "next";
+import { GetServerSideProps, GetStaticProps } from "next/types";
 import logger from "../../lib/logger";
 import postService from "../../services/postService";
 import prisma, { Prisma } from "@prisma/client";
