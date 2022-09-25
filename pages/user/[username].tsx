@@ -15,15 +15,25 @@ function user({user}: PropsI) {
     return (
         <main>
             {session ? (
-                <div className="grid grid-cols-4 grid-rows-5 h-screen w-auto">
-                    <div className="bg-blue-200">
-                        <li className="row-span-3">Edit</li>
-                        <li>Following</li>
-                        <li>Account</li>
+                <div className="relative grid grid-cols-4 grid-rows-5 gap-5 h-screen w-auto bg-blue-100">
+                    <div className="row-span-2 col-span-1 bg-blue-200"></div>
+                    <div className="col-span-3 row-span-5 bg-blue-200">
+                        <div className="">Aomething</div>    
                     </div>
-                        
-                    <div className="bg-blue-500 col-span-3">
-                        <p>Aomething</p>    
+                    <div className="relative bg-blue-200">
+                        <div className="absolute bottom-0 right-0">
+                            <p>Following</p>
+                        </div>
+                    </div>
+                    <div className="relative bg-blue-200">
+                        <div className="absolute top-0 right-0">
+                            <p>Edit</p> 
+                        </div>
+                    </div>
+                    <div className="relative bg-blue-200">
+                        <div className="absolute top-0 right-0">
+                            Account
+                        </div>
                     </div>
                 </div>
             ) : (
