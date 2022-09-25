@@ -12,15 +12,96 @@ const router = createRouter<PostRequest, NextApiResponse>();
 
 router.use(expressWrapper(customMorgan));
 
+/**
+ * @swagger
+ * /api/post/{id}:
+ *  get:
+ *      summary: Return post by id
+ *      tags: [Posts]
+ *      parameters:
+ *          -   in: path
+ *              name: id
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: post id
+ *      responses:
+ *          200:
+ *              description: list of all posts
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#/components/schemas/post'
+ *                                
+ */
+
 router.get( async (req: PostRequest, res: NextApiResponse) =>{
     const post = await postService.findById(req.query.id);
     return res.status(200).json(post);
 });
 
+/**
+ * @swagger
+ * /api/post/{id}:
+ *  put:
+ *      summary: Updates post by id
+ *      tags: [Posts]
+ *      parameters:
+ *          -   in: path
+ *              name: id
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: post id
+ *      requestBody:
+ *          required: true
+ *          content: 
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/postToUpdate'
+ *      responses:
+ *          200:
+ *              description: If operation was succesful
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/post'
+ *          404:
+ *              description: User not found
+ *                                
+ */
+
 router.put( async (req: PostRequest, res: NextApiResponse) =>{
     const post = await postService.update(req.query.id, req.body);
     return res.status(200).json(post);
 });
+
+/**
+ * @swagger
+ * /api/post/{id}:
+ *  delete:
+ *      summary: Deletes a post by id
+ *      tags: [Posts]
+ *      parameters:
+ *          -   in: path
+ *              name: id
+ *              schema:
+ *                  type: string
+ *              required: true
+ *              description: post id
+ *      responses:
+ *          200:
+ *              description: If operation was succesful
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: string
+ *          404:
+ *              description: Post not found
+ *                                
+ */
 
 router.delete( async (req: PostRequest, res: NextApiResponse) =>{
     const { id } = req.query;
