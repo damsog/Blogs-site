@@ -11,6 +11,24 @@ const router = createRouter<UserRequest, NextApiResponse>();
 
 router.use(expressWrapper(customMorgan));
 
+/**
+ * @swagger
+ * /api/user:
+ *  get:
+ *      summary: Return all users
+ *      tags: [Users]
+ *      responses:
+ *          200:
+ *              description: list of all users
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#/components/schemas/user'
+ *                                
+ */
+
 router.get( async (req: UserRequest, res: NextApiResponse) =>{
     const users = await userService.findAll();
     return res.status(200).json(users);
@@ -38,3 +56,72 @@ export default router.handler({
         res.status(405).json({message: `Method ${req.method} Not Allowed`});
     },
 });
+
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      user:
+ *          type: object
+ *          required:
+ *              - username
+ *              - password
+ *          properties:
+ *              id:
+ *                  type: string
+ *                  description: The auto-generated id of the user
+ *              name:
+ *                  type: string
+ *                  description: Username set by user
+ *              email:
+ *                  type: string
+ *                  description: Email set by user
+ *              password:
+ *                  type: string
+ *                  description: key to access
+ *              firstName:
+ *                  type: string
+ *                  description: first name of the user
+ *              lastName:
+ *                  type: string
+ *                  description: last name of the user
+ *              image: 
+ *                 type: string 
+ *                 description: image of the user
+ *              emailVerified:
+ *                 type: boolean
+ *                 description: if the email is verified
+ *              createdAt:
+ *                  type: string
+ *                  description: time
+ *              updatedAt:
+ *                  type: string
+ *                  description: time
+*/
+
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      userToUpdate:
+ *          type: object
+ *          required:
+ *              - username
+ *              - password
+ *          properties:
+ *              name:
+ *                  type: string
+ *                  description: Username set by user
+ *              password:
+ *                  type: string
+ *                  description: key to access
+ *              firstName:
+ *                  type: string
+ *                  description: first name of the user
+ *              lastName:
+ *                  type: string
+ *                  description: last name of the user
+ *              image: 
+ *                 type: string 
+ *                 description: image of the user
+*/
