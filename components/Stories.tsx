@@ -8,7 +8,7 @@ const Stories = () => {
     return (
         <div className="h-full w-full">
             <div className="flex flex-col items-center p-10">
-                <h3 className="text-4xl">Stories</h3>
+                <h3 className="text-4xl font-bold">Stories</h3>
             </div>
             <div className="flex px-10 gap-6">
                 {(selection === "stories") ? 
@@ -28,13 +28,13 @@ const Stories = () => {
             <hr className="mx-4 pb-2" />
 
             {(selection === "stories") && (
-                <div>
+                <div className="flex flex-col items-center">
                     <p>Stories</p>
                 </div>
             )}
 
             {(selection === "following") && (
-                <div>
+                <div className="flex flex-col items-center">
                     <p>following</p>
                 </div>
             )}
