@@ -1,17 +1,19 @@
-import { Post } from "@prisma/client";
+import { Post, User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import StoryPreview from "./StoryPreview";
 
 interface PropsI {
-    posts: Post[]
+    posts: Post[],
+    user: User
 }
 
-const Stories = ({posts}: PropsI) => {
+const Stories = ({posts,user}: PropsI) => {
     const [selection, setSelection] = useState("stories");
     const { data: session, status } = useSession();
     
     return (
-        <div className="h-full w-full">
+        <>
             <div className="flex flex-col items-center p-10">
                 <h3 className="text-4xl font-bold">Stories</h3>
             </div>
@@ -33,9 +35,9 @@ const Stories = ({posts}: PropsI) => {
             <hr className="mx-4 pb-2" />
 
             {(selection === "stories") && (
-                posts.map((post) => 
-                    (<p>{post.title}</p>)
-                )
+                posts.map((post) => (
+                    <StoryPreview post={post} user={user}/>
+                ))
             )}
 
             {(selection === "following") && (
@@ -43,7 +45,7 @@ const Stories = ({posts}: PropsI) => {
                     <p>following</p>
                 </div>
             )}
-        </div> 
+        </> 
     )
 }
 
