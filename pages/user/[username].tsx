@@ -27,11 +27,13 @@ function user({user, posts}: PropsI) {
                 <div className=" grid grid-cols-7 grid-rows-7 divide-x h-screen w-auto">
                     <div className="row-span-4 col-span-1 "></div>
                     <div className="relative col-span-6 row-span-6">
-                        {(selection === "stories") && (<Stories posts={posts} />)}
+                        <div className=" px-24 h-full w-full">
+                            {(selection === "stories") && (<Stories posts={posts} user={user} />)}
 
-                        {(selection === "write") && (<Write/>)}
+                            {(selection === "write") && (<Write/>)}
 
-                        {(selection === "account") && (<Account/>)}
+                            {(selection === "account") && (<Account/>)}
+                        </div>
                     </div>
                     <div className="relative row-span-1 col-span-1 ">
                         <div className="m-4 absolute bottom-1/2 right-0">
