@@ -1,7 +1,11 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
-const Stories = () => {
+interface PropsI {
+    posts: Post[]
+}
+
+const Stories = ({posts}: PropsI) => {
     const [selection, setSelection] = useState("stories");
     const { data: session, status } = useSession();
     
@@ -28,9 +32,9 @@ const Stories = () => {
             <hr className="mx-4 pb-2" />
 
             {(selection === "stories") && (
-                <div className="flex flex-col items-center">
-                    <p>Stories</p>
-                </div>
+                posts.map((post) => 
+                    (<p>{post.title}</p>)
+                )
             )}
 
             {(selection === "following") && (

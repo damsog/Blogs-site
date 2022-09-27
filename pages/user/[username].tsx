@@ -2,20 +2,22 @@ import { useSession } from "next-auth/react";
 import { GetStaticPaths, GetStaticProps } from "next/types";
 import Header from "../../components/Header";
 import userService from "../../services/userService";
-import { User } from "@prisma/client";
+import { Post, User } from "@prisma/client";
 import Stories from "../../components/Stories";
 import { useState } from "react";
 import Account from "../../components/Account";
 import Write from "../../components/Write";
 import { IoBookmarksOutline } from "@react-icons/all-files/io5/IoBookmarksOutline";
 import { IoBookOutline } from "@react-icons/all-files/io5/IoBookOutline";
+import postService from "../../services/postService";
 
 
 interface PropsI {
-    user: User;
+    user: User,
+    posts: Post[]
 }
 
-function user({user}: PropsI) {
+function user({user, posts}: PropsI) {
     const [ selection, setSelection ] = useState("stories");
     const { data: session, status } = useSession();
 
@@ -25,7 +27,7 @@ function user({user}: PropsI) {
                 <div className=" grid grid-cols-7 grid-rows-7 divide-x h-screen w-auto">
                     <div className="row-span-4 col-span-1 "></div>
                     <div className="relative col-span-6 row-span-6">
-                        {(selection === "stories") && (<Stories/>)}
+                        {(selection === "stories") && (<Stories posts={posts} />)}
 
                         {(selection === "write") && (<Write/>)}
 
@@ -79,6 +81,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({params}) => {
     const username = params!.username as string;
     const user = await userService.findByEmail(username);
+    const posts = await postService.findByAuthorId(user!.id);
 
     if (!user) {
         return {notFound: true}
@@ -87,6 +90,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     return {
         props: {
             user: JSON.parse(JSON.stringify(user)),
+            posts: JSON.parse(JSON.stringify(posts))
         }
     }
 }
