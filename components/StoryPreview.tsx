@@ -1,4 +1,5 @@
 import { Post, User } from "@prisma/client";
+import Link from "next/link";
 
 interface PropsI {
     post: Post,
@@ -14,7 +15,9 @@ const StoryPreview = ({post, user}: PropsI) => {
             </div>
             <div className="flex justify-between py-2">
                 <div>
-                    <h1 className=" text-2xl font-bold">{post.title}</h1>
+                    <Link key={`/post/${post.slug}`} href={`/post/${post.slug}`}>
+                        <h1 className="cursor-pointer text-2xl font-bold">{post.title}</h1>
+                    </Link>
                     <p>{post.description}</p>
                 </div>
                 <img className="w-20 h-20" src={post.mainImage!} alt="" />

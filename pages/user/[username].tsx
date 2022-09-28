@@ -10,6 +10,7 @@ import Write from "../../components/Write";
 import { IoBookmarksOutline } from "@react-icons/all-files/io5/IoBookmarksOutline";
 import { IoBookOutline } from "@react-icons/all-files/io5/IoBookOutline";
 import postService from "../../services/postService";
+import Link from "next/link";
 
 
 interface PropsI {
@@ -27,7 +28,9 @@ function user({user, posts}: PropsI) {
                 <div className="flex flex-row justify-between h-screen w-auto">
                     <div className="flex flex-col justify-between w-1/6">
                         <div className="relative">
-                            <img className="absolute top-0 right-0 w-44 object-contain cursor-pointer" src="https://links.papareact.com/yvf" alt="" />
+                            <Link key="/" href="/">
+                                <img className="absolute top-0 right-0 w-44 object-contain cursor-pointer" src="https://links.papareact.com/yvf" alt="" />
+                            </Link>
                         </div>
                         <div className="relative">
                             <div className="absolute m-4 top-0 right-0">

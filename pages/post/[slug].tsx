@@ -9,6 +9,7 @@ import { useState } from "react";
 import commentService from "../../services/commentService";
 import { useSession } from "next-auth/react";
 import userService from "../../services/userService";
+import Link from "next/link";
 
 // This function gets called at build time populated with the posts data
 
@@ -73,14 +74,19 @@ function Post({post,author,comments}: Props) {
                 <h2 className="text-xl font-light text-gray-500 mb-2">{post.description}</h2>
 
                 <div className="flex items-center space-x-2">
+                    <Link key={`/user/${author.email!}`} href={`/user/${author.email!}`}>
                     <img
-                        className="h-10 w-10 rounded-full"
+                        className="cursor-pointer h-10 w-10 rounded-full"
                         src={author.image!} 
                         alt="" 
                     />
+                    </Link>
+
                     <p className="font-extralight text-sm">
                         Blog post by {" "}
-                        <span className="text-green-600">{post.author.name}</span> 
+                        <Link key={`/user/${author.email!}`} href={`/user/${author.email!}`}>
+                        <span className="cursor-pointer text-green-600">{post.author.name}</span> 
+                        </Link>
                         - Published at {new Date(post.createdAt).toLocaleDateString()}
                     </p>
                 </div>
