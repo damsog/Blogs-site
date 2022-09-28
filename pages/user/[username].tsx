@@ -24,10 +24,34 @@ function user({user, posts}: PropsI) {
     return (
         <main>
             {session ? (
-                <div className=" grid grid-cols-7 grid-rows-7 divide-x h-screen w-auto">
-                    <div className="row-span-4 col-span-1 "></div>
-                    <div className="relative col-span-6 row-span-6">
-                        <div className=" px-24 h-full w-full">
+                <div className="flex flex-row justify-between h-screen w-auto">
+                    <div className="flex flex-col justify-between w-1/6">
+                        <div className="relative">
+                            <img className="absolute top-0 right-0 w-44 object-contain cursor-pointer" src="https://links.papareact.com/yvf" alt="" />
+                        </div>
+                        <div className="relative">
+                            <div className="absolute m-4 top-0 right-0">
+                                {(selection === "stories") ? 
+                                    (<h5 className=" text-3xl cursor-pointer text-gray-900" onClick={()=>setSelection("stories")}><IoBookmarksOutline/></h5>):
+                                    (<h5 className=" text-3xl cursor-pointer text-gray-500 hover hover:text-gray-900" onClick={()=>setSelection("stories")}><IoBookmarksOutline/></h5>)}
+                            </div>
+
+                            <div className="absolute m-4 bottom-0 right-0">
+                                {(selection === "write") ? 
+                                    (<h5 className=" text-3xl cursor-pointer text-gray-900" onClick={()=>setSelection("write")}><IoBookOutline/></h5>):
+                                    (<h5 className=" text-3xl cursor-pointer text-gray-500 hover hover:text-gray-900" onClick={()=>setSelection("write")}><IoBookOutline/></h5>)}
+                            </div>
+                        </div>
+                        <div className="relative">
+                            <div className="absolute m-4 bottom-0 right-0 ">
+                                {(selection === "account") ? 
+                                    (<img className="h-10 w-10 rounded-full cursor-pointer outline-double outline-black-900" onClick={()=>setSelection("account")} src={user.image!} alt=""/>):
+                                    (<img className="h-10 w-10 rounded-full cursor-pointer hover hover:outline-double hover:outline-black-900" onClick={()=>setSelection("account")} src={user.image!} alt=""/>)}
+                            </div>
+                        </div>
+                    </div>
+                    <div className=" w-8/12 ">
+                        <div className=" px-24 ">
                             {(selection === "stories") && (<Stories posts={posts} user={user} />)}
 
                             {(selection === "write") && (<Write/>)}
@@ -35,28 +59,7 @@ function user({user, posts}: PropsI) {
                             {(selection === "account") && (<Account/>)}
                         </div>
                     </div>
-                    <div className="relative row-span-1 col-span-1 ">
-                        <div className="m-4 absolute bottom-1/2 right-0">
-                            {(selection === "stories") ? 
-                                (<h5 className=" text-3xl cursor-pointer text-gray-900" onClick={()=>setSelection("stories")}><IoBookmarksOutline/></h5>):
-                                (<h5 className=" text-3xl cursor-pointer text-gray-500 hover hover:text-gray-900" onClick={()=>setSelection("stories")}><IoBookmarksOutline/></h5>)}
-                        </div>
-                    </div>
-                    <div className="relative row-span-1 col-span-1 ">
-                        <div className="m-4 absolute bottom-1/2 right-0">
-                            {(selection === "write") ? 
-                                (<h5 className=" text-3xl cursor-pointer text-gray-900" onClick={()=>setSelection("write")}><IoBookOutline/></h5>):
-                                (<h5 className=" text-3xl cursor-pointer text-gray-500 hover hover:text-gray-900" onClick={()=>setSelection("write")}><IoBookOutline/></h5>)}
-                        </div>
-                    </div>
-                    <div className="relative row-span-1 col-span-1 ">
-                        <div className="m-4 absolute top-0 right-0">
-                            {(selection === "account") ? 
-                                (<img className="h-10 w-10 rounded-full cursor-pointer outline-double outline-black-900" onClick={()=>setSelection("account")} src={user.image!} alt=""/>):
-                                (<img className="h-10 w-10 rounded-full cursor-pointer hover hover:outline-double hover:outline-black-900" onClick={()=>setSelection("account")} src={user.image!} alt=""/>)}
-                        </div>
-                    </div>
-                    
+                    <div className=" w-1/4 "></div>                    
                 </div>
             ) : (
                 <p>Not logged</p>
