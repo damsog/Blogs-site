@@ -35,21 +35,21 @@ function user({user, posts}: PropsI) {
                         <div className="relative">
                             <div className="absolute m-4 top-0 right-0">
                                 {(selection === "stories") ? 
-                                    (<h5 className=" text-3xl cursor-pointer text-gray-900" onClick={()=>setSelection("stories")}><IoBookmarksOutline/></h5>):
-                                    (<h5 className=" text-3xl cursor-pointer text-gray-500 hover hover:text-gray-900" onClick={()=>setSelection("stories")}><IoBookmarksOutline/></h5>)}
+                                    (<h5 className=" text-2xl cursor-pointer text-gray-900" onClick={()=>setSelection("stories")}><IoBookmarksOutline/></h5>):
+                                    (<h5 className=" text-2xl cursor-pointer text-gray-500 hover hover:text-gray-900" onClick={()=>setSelection("stories")}><IoBookmarksOutline/></h5>)}
                             </div>
 
                             <div className="absolute m-4 bottom-0 right-0">
                                 {(selection === "write") ? 
-                                    (<h5 className=" text-3xl cursor-pointer text-gray-900" onClick={()=>setSelection("write")}><IoBookOutline/></h5>):
-                                    (<h5 className=" text-3xl cursor-pointer text-gray-500 hover hover:text-gray-900" onClick={()=>setSelection("write")}><IoBookOutline/></h5>)}
+                                    (<h5 className=" text-2xl cursor-pointer text-gray-900" onClick={()=>setSelection("write")}><IoBookOutline/></h5>):
+                                    (<h5 className=" text-2xl cursor-pointer text-gray-500 hover hover:text-gray-900" onClick={()=>setSelection("write")}><IoBookOutline/></h5>)}
                             </div>
                         </div>
                         <div className="relative">
                             <div className="absolute m-4 bottom-0 right-0 ">
                                 {(selection === "account") ? 
-                                    (<img className="h-10 w-10 rounded-full cursor-pointer outline-double outline-black-900" onClick={()=>setSelection("account")} src={user.image!} alt=""/>):
-                                    (<img className="h-10 w-10 rounded-full cursor-pointer hover hover:outline-double hover:outline-black-900" onClick={()=>setSelection("account")} src={user.image!} alt=""/>)}
+                                    (<img className="h-8 w-8 rounded-full cursor-pointer outline-double outline-black-900" onClick={()=>setSelection("account")} src={user.image!} alt=""/>):
+                                    (<img className="h-8 w-8 rounded-full cursor-pointer hover hover:outline-double hover:outline-black-900" onClick={()=>setSelection("account")} src={user.image!} alt=""/>)}
                             </div>
                         </div>
                     </div>

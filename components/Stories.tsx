@@ -31,6 +31,13 @@ const Stories = ({posts,user}: PropsI) => {
                     </div>) :
                     (<h5 className=" cursor-pointer text-gray-500 hover hover:text-gray-900 " onClick={()=>setSelection("following")}>Following</h5>
                 )}
+                {(selection === "for_you") ? 
+                    (<div className="flex flex-col">
+                        <h5 className=" cursor-pointer text-gray-900 " onClick={()=>setSelection("for_you")}>For You</h5>
+                        <hr className="w-full border-black" />
+                    </div>) :
+                    (<h5 className=" cursor-pointer text-gray-500 hover hover:text-gray-900 " onClick={()=>setSelection("for_you")}>For You</h5>
+                )}
             </div>
             <hr className="mx-4 pb-2" />
 
@@ -43,6 +50,12 @@ const Stories = ({posts,user}: PropsI) => {
             {(selection === "following") && (
                 <div className="flex flex-col items-center">
                     <p>following</p>
+                </div>
+            )}
+
+            {(selection === "for_you") && (
+                <div className="flex flex-col items-center">
+                    <p>for you</p>
                 </div>
             )}
         </> 
