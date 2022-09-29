@@ -32,8 +32,10 @@ const Header = () => {
                         src={session.user!.image as string} 
                         alt="" 
                     />
-                    <button className="border px-4 py-1 rounded-full border-green-200 
+                    <Link href={`/user/${session.userEmail}`}>
+                        <button className="border px-4 py-1 rounded-full border-green-200 
                                 hover:bg-green-500 hover:text-white hover:border-green-500">Get Started</button>
+                    </Link>
                 </div>
             )}
         </header>
