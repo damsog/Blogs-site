@@ -27,12 +27,12 @@ const Home: NextPage<Props> = ({posts}:Props) => {
 
       <Header />
 
-      <div className="flex justify-between items-center bg-yellow-400 border-y border-black py-10 lg:py-0">
+      <div className="flex justify-between items-center bg-white border-y border-gray-200 py-10 lg:py-0">
         <div className="px-10 space-y-5">
-          <h1 className="text-6xl max-w-xl font-serift ">
-            <span className="underline decoration-black decoration-4">Medium</span> is a place to write, read, and connect 
+          <h1 className="text-6xl max-w-xl font-extralight text-gray-900">
+            <span className="underline decoration-gray-900 decoration-4">Medium</span> is a place to write, read, and connect 
           </h1>
-          <h2>
+          <h2 className='font-extralight text-gray-800'>
             It's easy and free to post your thinking on any topic and connect
             with millions of readers.
           </h2>
@@ -58,8 +58,8 @@ const Home: NextPage<Props> = ({posts}:Props) => {
               />
               <div className='flex justify-between p-5 bg-white'>
                 <div>
-                  <p className='text-lg font-bold'>{post.title}</p>
-                  <p className='text-xs'>{post.description} by {" "}
+                  <p className='text-lg font-bold text-gray-800'>{post.title}</p>
+                  <p className='text-xs text-gray-600'>{post.description} by {" "}
                         <span className="text-green-600">{post.author.name}</span> 
                   </p>
                 </div>

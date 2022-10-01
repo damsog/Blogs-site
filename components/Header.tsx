@@ -20,17 +20,17 @@ const Header = () => {
                 </div>
             </div>
             { !session ? (
-                <div className="flex items-center space-x-5 text-green-500">
-                    <button onClick={() => signIn()} className="hover:text-green-700">Sign In</button>
-                    <button onClick={() => signIn()} className="border px-4 py-1 rounded-full border-green-200 
-                                hover:bg-green-500 hover:text-white hover:border-green-500">Get Started</button>
+                <div className="flex items-center space-x-5 text-gray-500">
+                    <button onClick={() => signIn()} className="hover:text-gray-700">Sign In</button>
+                    <button onClick={() => signIn()} className="border px-4 py-1 rounded-full border-gray-200 
+                                hover:bg-gray-300 hover:text-white hover:border-gray-300">Get Started</button>
                 </div>
             ) : (
-                <div className="flex items-center space-x-5 text-green-500">
+                <div className="flex items-center space-x-5 text-gray-500">
                     <DropDownAccount/>
                     <Link href={`/user/${session.userEmail}`}>
-                        <button className="border px-4 py-1 rounded-full border-green-200 
-                                hover:bg-green-500 hover:text-white hover:border-green-500">Get Started</button>
+                        <button className="border px-4 py-1 rounded-full border-gray-200 
+                                hover:bg-gray-300 hover:text-white hover:border-gray-300">Get Started</button>
                     </Link>
                 </div>
             )}

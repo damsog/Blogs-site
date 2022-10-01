@@ -12,7 +12,7 @@ export default function Example() {
     return (
     <Menu as="div" className="relative inline-block text-left">
         <div>
-        <Menu.Button className="inline-flex justify-center rounded-full bg-white text-sm font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-100">
+        <Menu.Button className="inline-flex justify-center rounded-full bg-white text-sm font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-offset-2 focus:ring-offset-gray-100">
             <img className='w-10 h-10 rounded-full' src={session!.user!.image as string} alt="" />
         </Menu.Button>
         </div>
