@@ -2,6 +2,7 @@ import { User } from "@prisma/client";
 import { IoBookmarksOutline } from "@react-icons/all-files/io5/IoBookmarksOutline";
 import { IoBookOutline } from "@react-icons/all-files/io5/IoBookOutline";
 import Link from "next/link";
+import DropDownAccount from "./DropDownAccount";
 
 interface PropsI {
     user: User,
@@ -33,8 +34,8 @@ const Sidebar = ({user, selection, setSelectionEvent, className}:PropsI) => {
             <div className="relative">
                 <div className="absolute m-4 bottom-0 right-0 ">
                     {(selection === "account") ? 
-                        (<img className="h-8 w-8 rounded-full cursor-pointer outline-double outline-black-900" onClick={()=>setSelectionEvent("account")} src={user.image!} alt=""/>):
-                        (<img className="h-8 w-8 rounded-full cursor-pointer hover hover:outline-double hover:outline-black-900" onClick={()=>setSelectionEvent("account")} src={user.image!} alt=""/>)}
+                        (<DropDownAccount up={true}/>):
+                        (<DropDownAccount up={true}/>)}
                 </div>
             </div>
             </div>

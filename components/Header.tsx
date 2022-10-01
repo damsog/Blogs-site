@@ -27,7 +27,7 @@ const Header = () => {
                 </div>
             ) : (
                 <div className="flex items-center space-x-5 text-gray-500">
-                    <DropDownAccount/>
+                    <DropDownAccount up={false}/>
                     <Link href={`/user/${session.userEmail}`}>
                         <button className="border px-4 py-1 rounded-full border-gray-200 
                                 hover:bg-gray-300 hover:text-white hover:border-gray-300">Get Started</button>
