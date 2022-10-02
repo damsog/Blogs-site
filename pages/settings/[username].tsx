@@ -4,72 +4,96 @@ import Header from "../../components/Header";
 import DisplayFormCard from "../../components/DisplayFormCard";
 import logger from "../../lib/logger";
 import userService from "../../services/userService";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 interface SettingsProps {
     user: User;
 }
 
 const settings = ({user}:SettingsProps) => {
-    return (
-        <div>
-            <Header></Header>
-            <div className="lg:flex lg:flex-row-reverse lg:justify-between mx-4 sm:mx-10 lg:mx-20 ">
-                <div className="hidden lg:block w-1/12"></div>
-                <div className="lg:w-1/2">
-                    <h3 className="text-2xl font-bold">About You</h3>
-                    <hr className="py-2" />
-                    <DisplayFormCard
-                        id={user.id}
-                        displayOption="Name"
-                        option="name"
-                        value={user.name!}
-                        description="Your name appears on your Profile page, as your byline, and in your responses. It is a required field."
-                        />
-                    <DisplayFormCard
-                        id={user.id}
-                        displayOption="First Name"
-                        option="firstName"
-                        value={user.firstName!}
-                        description="Your name appears on your Profile page, as your byline, and in your responses. It is a required field."
-                        />
-                    <DisplayFormCard
-                        id={user.id}
-                        displayOption="Last Name"
-                        option="lastName"
-                        value={user.lastName!}
-                        description="Your name appears on your Profile page, as your byline, and in your responses. It is a required field."
-                        />
-                    
-                    <div className="flex flex-row justify-between" >
-                        <div>
-                            <h1 className=" text-xl font-bold py-2">Profile Picture </h1>
-                            <p className=" text-gray-700 text-sm">Your photo appears on your Profile page and with your stories across Medium.</p>
-                        </div>
-                        <img className="rounded-full w-10 h-10" src={user.image!} alt="" />
-                    </div>
+    const { data: session, status } = useSession({ required: true });
+    const router = useRouter();
 
-                    <DisplayFormCard
-                        id={user.id}
-                        displayOption="Email"
-                        option="email"
-                        value={user.email!}
-                        description="Your email address is used to sign in to your account, and to send you notifications. It is a required field."
-                        />
-                    <DisplayFormCard
-                        id={user.id}
-                        displayOption="password"
-                        option="password"
-                        value={user.password!}
-                        description="Your password is used to sign in to your account. It is a required field."
-                        />
-                    
-                </div>
-                <div className="lg:w-1/12">
-                    <h1 className=" text-xl font-bold " >Settings</h1>
-                </div>
-            </div>
-        </div>
-    );
+    useEffect(() => {
+        if(status === "loading") return;
+        if(!session) router.push("/login");
+        if(session.userEmail !== user.email) router.push("/");
+    }, [session, status]);
+
+    //TODO: Create a secured component to simply wrap around the components that need to be secured
+    return (
+        <main>
+            {(status==="authenticated") && (
+                <>
+                    {(session.userEmail === user.email) ? (
+                        <div>
+                            <Header></Header>
+                            <div className="lg:flex lg:flex-row-reverse lg:justify-between mx-4 sm:mx-10 lg:mx-20 ">
+                                <div className="hidden lg:block w-1/12"></div>
+                                <div className="lg:w-1/2">
+                                    <h3 className="text-2xl font-bold">About You</h3>
+                                    <hr className="py-2" />
+                                    <DisplayFormCard
+                                        id={user.id}
+                                        displayOption="Name"
+                                        option="name"
+                                        value={user.name!}
+                                        description="Your name appears on your Profile page, as your byline, and in your responses. It is a required field."
+                                        />
+                                    <DisplayFormCard
+                                        id={user.id}
+                                        displayOption="First Name"
+                                        option="firstName"
+                                        value={user.firstName!}
+                                        description="Your name appears on your Profile page, as your byline, and in your responses. It is a required field."
+                                        />
+                                    <DisplayFormCard
+                                        id={user.id}
+                                        displayOption="Last Name"
+                                        option="lastName"
+                                        value={user.lastName!}
+                                        description="Your name appears on your Profile page, as your byline, and in your responses. It is a required field."
+                                        />
+                                    
+                                    <div className="flex flex-row justify-between" >
+                                        <div>
+                                            <h1 className=" text-xl font-bold py-2">Profile Picture </h1>
+                                            <p className=" text-gray-700 text-sm">Your photo appears on your Profile page and with your stories across Medium.</p>
+                                        </div>
+                                        <img className="rounded-full w-10 h-10" src={user.image!} alt="" />
+                                    </div>
+
+                                    <DisplayFormCard
+                                        id={user.id}
+                                        displayOption="Email"
+                                        option="email"
+                                        value={user.email!}
+                                        description="Your email address is used to sign in to your account, and to send you notifications. It is a required field."
+                                        />
+                                    <DisplayFormCard
+                                        id={user.id}
+                                        displayOption="password"
+                                        option="password"
+                                        value={user.password!}
+                                        description="Your password is used to sign in to your account. It is a required field."
+                                        />
+                                    
+                                </div>
+                                <div className="lg:w-1/12">
+                                    <h1 className=" text-xl font-bold " >Settings</h1>
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <p>Not Allowed</p>
+                    )}
+                </>
+            )}
+        </main>
+    )
+
 }
 
 export default settings;
