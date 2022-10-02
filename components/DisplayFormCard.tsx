@@ -1,4 +1,3 @@
-import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -25,9 +24,7 @@ interface IFormInput {
 const DisplayFormCard = ({id, displayOption, option, value, description, className}:DisplayFormCardProps) => {
 
     const [ editing, setEditing ] = useState(false);
-    const [ submitted, setSubmitted ] = useState(false);
     const { register, handleSubmit, watch, formState: { errors } } = useForm<IFormInput>();
-    const { data: session, status } = useSession();
 
     const onSubmit:SubmitHandler<IFormInput> = async (data) => {
         console.log(`Submitting data:  ${JSON.stringify(data)}`);
