@@ -30,7 +30,7 @@ const DropDownAccount = ({up}:DropUpAccountProps)=> {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
         >
-        <Menu.Items className={classNames(`absolute right-0 z-10 mt-2 w-56 divide-y divide-gray-100 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${up ? `-top-2 -translate-y-full`:''}`)}>
+        <Menu.Items className={classNames(`absolute right-0 z-10 mt-2 w-56 divide-y divide-gray-100 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${up ? `-top-2 -translate-y-full -left-1`:''}`)}>
             <div className="py-1">
                 <a href="#" className={classNames('text-gray-700','block px-4 py-2 text-sm')}>
                     {session?.user?.name}

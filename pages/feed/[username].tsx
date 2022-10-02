@@ -31,12 +31,12 @@ function user({user, posts}: PropsI) {
             {(status==="authenticated") && (
                 <>
                     {(session.userEmail === user.email) ? (
-                        <div className="flex flex-row justify-between h-screen w-auto">
+                        <div className="flex flex-col-reverse lg:flex lg:flex-row justify-between h-screen w-auto">
                             
-                            <SideBar className="w-1/6" user={user} selection={selection} setSelectionEvent={setSelection}></SideBar>  
+                            <SideBar className="lg:w-1/6" user={user} selection={selection} setSelectionEvent={setSelection}></SideBar>  
                             
-                            <div className=" w-8/12 ">
-                                <div className=" px-24 ">
+                            <div className="w-screen lg:w-8/12">
+                                <div className=" lg:px-24 ">
                                     {(selection === "stories") && (<Stories posts={posts} user={user} />)}
 
                                     {(selection === "write") && (<Write/>)}
@@ -44,7 +44,7 @@ function user({user, posts}: PropsI) {
                                     {(selection === "account") && (<Account/>)}
                                 </div>
                             </div>
-                            <div className=" w-1/4 "></div>                    
+                            <div className="hidden lg:block w-1/4 "></div>                    
                         </div>
                     ) : (
                         <p>Not Allowed</p>

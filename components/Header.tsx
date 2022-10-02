@@ -14,23 +14,24 @@ const Header = () => {
                 </Link>
                 <div className="hidden md:inline-flex 
                     items-center space-x-5">
-                    <button className="text-gray-600 hover:text-gray-800">About</button>
+                    <Link href={`/feed/${session?.user?.email}`}>
+                        <button className="text-gray-600 hover:text-gray-800">Stories</button>
+                    </Link>
                     <button className="text-gray-600 hover:text-gray-800">Contact</button>
-                    <button className="text-gray-600 hover:text-gray-800">Follow</button>
                 </div>
             </div>
             { !session ? (
                 <div className="flex items-center space-x-5 text-gray-500">
                     <button onClick={() => signIn()} className="hover:text-gray-700">Sign In</button>
                     <button onClick={() => signIn()} className="border px-4 py-1 rounded-full border-gray-200 
-                                hover:bg-gray-300 hover:text-white hover:border-gray-300">Get Started</button>
+                                hover:bg-gray-100">Get Started</button>
                 </div>
             ) : (
                 <div className="flex items-center space-x-5 text-gray-500">
                     <DropDownAccount up={false}/>
                     <Link href={`/user/${session.userEmail}`}>
                         <button className="border px-4 py-1 rounded-full border-gray-200 
-                                hover:bg-gray-300 hover:text-white hover:border-gray-300">Get Started</button>
+                                hover:bg-gray-100">Get Started</button>
                     </Link>
                 </div>
             )}
