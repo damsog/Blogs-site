@@ -16,7 +16,8 @@ const settings = ({user}:SettingsProps) => {
             <div className="lg:flex lg:flex-row-reverse lg:justify-between mx-4 sm:mx-10 lg:mx-20 ">
                 <div className="hidden lg:block w-1/12"></div>
                 <div className="lg:w-1/2">
-                    <h1>About You</h1>
+                    <h3 className="text-2xl font-bold">About You</h3>
+                    <hr className="py-2" />
                     <DisplayFormCard
                         id={user.id}
                         displayOption="Name"
@@ -64,7 +65,7 @@ const settings = ({user}:SettingsProps) => {
                     
                 </div>
                 <div className="lg:w-1/12">
-                    <h1>Settings</h1>
+                    <h1 className=" text-xl font-bold " >Settings</h1>
                 </div>
             </div>
         </div>
