@@ -44,7 +44,18 @@ function user({user, posts}: PropsI) {
                                     {(selection === "account") && (<Account/>)}
                                 </div>
                             </div>
-                            <div className="hidden lg:block w-1/6 "></div>                    
+                            <div className="hidden lg:block w-1/6 my-40 mx-5">
+                                <div className="p-4 bg-slate-200 h-50 w-50 rounded-lg shadow-lg">
+                                    <h1>Start Writing</h1>
+                                    <p className="py-4">
+                                        Writing on Medium
+                                        New writer FAQ
+                                        Expert writing advice
+                                        Grow your readership
+                                    </p>
+
+                                </div>
+                            </div>                    
                         </div>
                     ) : (
                         <p>Not Allowed</p>
